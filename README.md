@@ -68,3 +68,5 @@ In the command terminal, run the following commands:
 * Allow the user to save a series as a favorite.
 * Allow the user to delete a series from the favorites list.
 * Allow the user to browse their favorite series in alphabetical order, and click on one to see its details.
+* Allow the user to set a PIN number to secure the application and prevent unauthorized users.
+* For supported phones, the user must be able to choose if they want to enable fingerprint authentication to avoid typing the PIN number while opening the app.
