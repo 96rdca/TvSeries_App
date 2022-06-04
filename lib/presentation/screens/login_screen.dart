@@ -84,55 +84,60 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Logo(height: 120),
-              BlocBuilder<AuthenticationCubit, bool>(
-                bloc: _authenticationCubit,
-                builder: (context, show) {
-                  if (show) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            controller: _pinEditing,
-                            obscureText: true,
-                            textAlign: TextAlign.center,
-                            onEditingComplete: validatePIN,
-                            style: Theme.of(context).textTheme.subtitle1,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                label: const Text('PIN'),
-                                labelStyle:
-                                    Theme.of(context).textTheme.subtitle1),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(6),
-                            ],
-                          ),
-                        ),
-                        Button(
-                          text: 'Access with PIN',
-                          onPressed: () => validatePIN(),
-                        )
-                      ],
-                    );
-                  }
+              BlocBuilder<FingerprintCubit, bool>(
+                builder: (context, fingerAuth) {
+                  return BlocBuilder<AuthenticationCubit, bool>(
+                    bloc: _authenticationCubit,
+                    builder: (context, localAuth) {
+                      if (localAuth) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child: TextField(
+                                controller: _pinEditing,
+                                obscureText: true,
+                                textAlign: TextAlign.center,
+                                onEditingComplete: validatePIN,
+                                style: Theme.of(context).textTheme.subtitle1,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    label: const Text('PIN'),
+                                    labelStyle:
+                                        Theme.of(context).textTheme.subtitle1),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(6),
+                                ],
+                              ),
+                            ),
+                            Button(
+                              text: 'Access with PIN',
+                              onPressed: () => validatePIN(),
+                            )
+                          ],
+                        );
+                      }
+                      if (fingerAuth) {
+                        return Button(
+                          text: 'Authenticate with Fingerprint',
+                          onPressed: () => authenticaFinger(),
+                        );
+                      }
+                      if (!fingerAuth && !localAuth) {
+                        return Button(
+                          text: 'Continue to Home',
+                          onPressed: () => Navigator.popAndPushNamed(
+                              context, HomeScreen.routeName),
+                        );
+                      }
 
-                  return const SizedBox.shrink();
+                      return const SizedBox.shrink();
+                    },
+                  );
                 },
               ),
-              BlocBuilder<FingerprintCubit, bool>(
-                bloc: _fingerprintCubit,
-                builder: (context, isActive) {
-                  if (isActive) {
-                    return Button(
-                      text: 'Authenticate with Fingerprint',
-                      onPressed: () => authenticaFinger(),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              )
             ],
           ),
         ),

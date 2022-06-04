@@ -4,7 +4,6 @@ import 'package:seriestv_jobcity/blocs/authentication/authentication_cubit.dart'
 import 'package:seriestv_jobcity/blocs/authentication/fingerprint_cubit.dart';
 import 'package:seriestv_jobcity/blocs/loading/loading_cubit.dart';
 import 'package:seriestv_jobcity/di/get_it.dart';
-import 'package:seriestv_jobcity/presentation/screens/home_screen.dart';
 import 'package:seriestv_jobcity/presentation/screens/loading_screen.dart';
 import 'package:seriestv_jobcity/presentation/router.dart';
 import 'package:seriestv_jobcity/presentation/screens/login_screen.dart';
@@ -22,6 +21,7 @@ class _TvMazeAppState extends State<TvMazeApp> {
   late LoadingCubit _loadingCubit;
   late AuthenticationCubit _authenticationCubit;
   late FingerprintCubit _fingerprintCubit;
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +59,7 @@ class _TvMazeAppState extends State<TvMazeApp> {
                     textTheme: ThemeText.getTextTheme(),
                     appBarTheme:
                         const AppBarTheme(backgroundColor: AppColor.grey)),
-                initialRoute: handleLogin(isEnabledFinger, isEnabledPIN),
+                initialRoute: LoginScreen.routeName,
                 builder: (context, child) => LoadingScreen(screen: child!),
                 onGenerateRoute: generateRoute,
               );
@@ -68,13 +68,5 @@ class _TvMazeAppState extends State<TvMazeApp> {
         },
       ),
     );
-  }
-
-  String handleLogin(bool isEnabledFinger, bool isEnabledPIN) {
-    if (isEnabledFinger || isEnabledPIN) {
-      return LoginScreen.routeName;
-    } else {
-      return HomeScreen.routeName;
-    }
   }
 }
