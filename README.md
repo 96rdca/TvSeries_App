@@ -13,8 +13,8 @@ Dart 2.17.1
 
 In the command terminal, run the following commands:
 
-    $ git clone https://github.com/96rdca/TvSeries_App.git
-    $ cd flutter-chat-app/
+    $ git clone https://github.com/96rdca/TvSeries_App.git TvSeriesApp
+    $ cd TvSeriesApp/
     $ flutter pub get
     $ flutter run
 
